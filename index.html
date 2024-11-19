@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="3;url=terminal-page.html">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjE1IiBmaWxsPSIjMDAxNTIzIi8+CiAgPHBhdGggZD0iTTMwIDQwIEw1MCA2MCBMMzAgODAiIHN0cm9rZT0iIzAwZmYwMCIgc3Ryb2tlLXdpZHRoPSI4IiBmaWxsPSJub25lIi8+CiAgPHRleHQgeD0iNjAiIHk9IjcwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjQwIiBmaWxsPSIjMDBmZjAwIj7igLo8L3RleHQ+Cjwvc3ZnPg==">
+    <title>Midhun Aravindan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+        /* Original styles remain unchanged */
+        :root {
+            --bg-color: #001523;
+            --terminal-bg: #00111f;
+            --text-color: #ffffff;
+            --prompt-color: #00ff00;
+            --accent-color: #ffb700;
+            --subtle-color: #4a5568;
+        }
+
+        /* Your existing styles here - keeping them all unchanged */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Ubuntu Mono', monospace;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Add loading screen styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: var(--prompt-color);
+            font-family: 'Ubuntu Mono', monospace;
+        }
+
+        #loading-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 2s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80% { content: '...'; }
+            100% { content: ''; }
+        }
+
+        .boot-sequence {
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .boot-sequence.visible {
+            opacity: 1;
+        }
+
+        /* Your existing styles remain unchanged */
+        [Your existing CSS]
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div id="loading-text">SYSTEM IS GETTING STARTED PLEASE WAIT<span class="loading-dots"></span></div>
+        <div class="boot-sequence" id="boot-sequence"></div>
+    </div>
+
+    <!-- Your existing terminal HTML remains unchanged -->
+    [Your existing HTML]
+
+    <script>
+        // Boot sequence messages
+        const bootMessages = [
+            "Initializing system components...",
+            "Loading kernel modules...",
+            "Checking system integrity...",
+            "Mounting file systems...",
+            "Starting terminal services...",
+            "Loading ShellFolio v1992.05..."
+        ];
+
+        // Audio setup
+        const startupSound = new Audio('https://cdnjs.cloudflare.com/hosted/95514/startup.mp3');
+        startupSound.volume = 2;
+
+        // Function to display boot sequence
+        async function showBootSequence() {
+            const bootSequenceElement = document.getElementById('boot-sequence');
+            bootSequenceElement.classList.add('visible');
+
+            for (const message of bootMessages) {
+                await new Promise(resolve => setTimeout(resolve, 800));
+                bootSequenceElement.innerHTML += `<div style="color: #00ff00">[OK] ${message}</div>`;
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Hide loading screen
+            document.getElementById('loading-screen').style.opacity = '0';
+            await new Promise(resolve => setTimeout(resolve, 500));
+            document.getElementById('loading-screen').style.display = 'none';
+            
+            // Initialize your existing terminal
+            initializeTerminal();
+        }
+
+        // Start the boot sequence when page loads
+        window.onload = async function() {
+            try {
+                await startupSound.play();
+            } catch (e) {
+                console.log('Audio autoplay blocked by browser');
+            }
+            showBootSequence();
+        };
+
+        // Your existing JavaScript remains unchanged
+        [Your existing JavaScript]
+    </script>
+</body>
+</html>

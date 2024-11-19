@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midhun Aravindan</title>
+     <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjE1IiBmaWxsPSIjMDAxNTIzIi8+CiAgPHBhdGggZD0iTTMwIDQwIEw1MCA2MCBMMzAgODAiIHN0cm9rZT0iIzAwZmYwMCIgc3Ryb2tlLXdpZHRoPSI4IiBmaWxsPSJub25lIi8+CiAgPHRleHQgeD0iNjAiIHk9IjcwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjQwIiBmaWxsPSIjMDBmZjAwIj7igLo8L3RleHQ+Cjwvc3ZnPg==">
+     <link rel="icon" type="image/png" href="your-website-favicon.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+
+        .website-link {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--terminal-bg);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-family: 'Ubuntu Mono', monospace;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+
+        .website-link:hover {
+            background: #002040;
+        }
+
+        .website-link svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--website-link-color);
+        }
+
+        :root {
+            --bg-color: #001523;
+            --terminal-bg: #00111f;
+            --text-color: #ffffff;
+            --prompt-color: #00ff00;
+            --accent-color: #ffb700;
+            --subtle-color: #4a5568;
+            --command-output-color: #993300;
+            --website-link-color: #194d33;
+            --hyperlink-color: #4287f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Ubuntu Mono', monospace;
+            padding: 20px;
+            position: relative;
+        }
+
+        #terminal-window {
+            width: 90%;
+            max-width: 900px;
+            background: var(--terminal-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(0, 150, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            -webkit-app-region: drag;
+            cursor: move;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            -webkit-app-region: no-drag;
+        }
+
+        .terminal-button:hover {
+            opacity: 0.7;
+        }
+
+        .close { background: #ff5f56; }
+        .minimize { background: #ffbd2e; }
+        .maximize { background: #27c93f; }
+
+        #terminal {
+            padding: 20px;
+            min-height: 60vh;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        #terminal.minimized {
+            display: none;
+        }
+
+        #terminal.maximized {
+            min-height: 95vh;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .prompt::before {
+            content: "❯";
+            color: var(--prompt-color);
+            margin-right: 8px;
+        }
+
+        #input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 16px;
+            outline: none;
+            flex-grow: 1;
+        }
+
+        #output a {
+            color: var(--hyperlink-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        #output a:hover {
+            text-decoration: underline;
+            color: #6aa4f5;
+        }
+
+        .welcome-text {
+            color: var(--accent-color);
+        }
+
+        .session-id {
+            color: var(--accent-color);
+        }
+
+        .help-text {
+            color: #888;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--terminal-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--subtle-color);
+            border-radius: 4px;
+        }
+
+        .restore-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--terminal-bg);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-family: 'Ubuntu Mono', monospace;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .restore-button:hover {
+            background: #002040;
+        }
+
+        @media (max-width: 768px) {
+            #terminal-window {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            #terminal {
+                font-size: 14px;
+                padding: 15px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal-window">
+        <div class="terminal-header">
+            <div class="terminal-button close" title="Close"></div>
+            <div class="terminal-button minimize" title="Minimize"></div>
+            <div class="terminal-button maximize" title="Maximize"></div>
+        </div>
+        <div id="terminal">
+            <div id="output"></div>
+            <div class="input-line">
+                <span class="prompt"></span>
+                <input type="text" id="input" autofocus>
+            </div>
+        </div>
+    </div>
+    <button class="restore-button">Restore Terminal</button>
+
+<button class="restore-button">Restore Terminal</button>
+    
+    <a href="coming-soon.html" target="_blank" class="website-link">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe-americas" viewBox="0 0 16 16">
+  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484q-.121.12-.242.234c-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z"/>
+</svg>
+        visit Website
+    </a>
+
+    <script>
+    const welcomeAsciiArt = `
+███████████   █████  █████ ██████   █████ ██████   █████ █████ ██████   █████   █████████      
+░░███░░░░░███ ░░███  ░░███ ░░██████ ░░███ ░░██████ ░░███ ░░███ ░░██████ ░░███   ███░░░░░███     
+ ░███    ░███  ░███   ░███  ░███░███ ░███  ░███░███ ░███  ░███  ░███░███ ░███  ███     ░░░      
+ ░██████████   ░███   ░███  ░███░░███░███  ░███░░███░███  ░███  ░███░░███░███ ░███              
+ ░███░░░░░███  ░███   ░███  ░███ ░░██████  ░███ ░░██████  ░███  ░███ ░░██████ ░███    █████     
+ ░███    ░███  ░███   ░███  ░███  ░░█████  ░███  ░░█████  ░███  ░███  ░░█████ ░░███  ░░███      
+ █████   █████ ░░████████   █████  ░░█████ █████  ░░█████ █████ █████  ░░█████ ░░█████████      
+░░░░░   ░░░░░   ░░░░░░░░   ░░░░░    ░░░░░ ░░░░░    ░░░░░ ░░░░░ ░░░░░    ░░░░░   ░░░░░░░░░
+        `;
+
+        const welcomeMessage = welcomeAsciiArt + "\nWelcome to ShellFolio \nExplore Shell by Typing \"help\" \nAll Commands are case insensitive.";
+
+        const commands = {
+            'about': 'About Me:\nI am a Cloud/DevOps Engineer passionate about creating elegant solutions...',
+            'skills': 'Technical Skills:\n• Frontend: React, JavaScript\n• Backend: Node.js, Python\n• Database: MongoDB, PostgreSQL\n• Tools: Git, Docker, AWS, Ansible, Puppet, Nagios, Terraform',
+            'projects': 'Recent Projects:\n1. E-commerce Platform\n2. AI-powered Chat Application\n3. Cloud Infrastructure Management Tool\n4. This Portfolio',
+            'contact': 'Contact Information:\n• Email: <a href="mailto:midhunaravindan@gmail.com">midhunaravindan@gmail.com</a>\n• GitHub: <a href="https://github.com/MidhunAravindan" target="_blank">github</a>\n• LinkedIn: <a href="https://www.linkedin.com/in/midhun-aravindan-8744251b2/" target="_blank">linkedin</a>',
+            'help': 'Available commands:\n• about     - Know about me\n• skills    - View my technical skills\n• projects  - See my recent work\n• contact   - How to reach me\n• clear     - Clear terminal\n• help      - Show this help message'
+        };
+
+        // Window Controls
+        const terminalWindow = document.getElementById('terminal-window');
+        const terminal = document.getElementById('terminal');
+        const restoreButton = document.querySelector('.restore-button');
+        let isMaximized = false;
+
+        document.querySelector('.close').addEventListener('click', () => {
+            terminalWindow.classList.add('hidden');
+            restoreButton.style.display = 'block';
+        });
+
+        document.querySelector('.minimize').addEventListener('click', () => {
+            terminal.classList.toggle('minimized');
+        });
+
+        document.querySelector('.maximize').addEventListener('click', () => {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminal.classList.add('maximized');
+                terminalWindow.style.width = '98%';
+                terminalWindow.style.maxWidth = '98%';
+                terminalWindow.style.height = '95vh';
+            } else {
+                terminal.classList.remove('maximized');
+                terminalWindow.style.width = '90%';
+                terminalWindow.style.maxWidth = '900px';
+                terminalWindow.style.height = 'auto';
+            }
+        });
+
+
+    // Add Command History Feature
+    const inputElement = document.getElementById('input');
+    const commandHistory = [];
+    let historyIndex = -1;
+
+    inputElement.addEventListener('keydown', function(e) {
+        // Up Arrow: Navigate back in command history
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (historyIndex < commandHistory.length - 1) {
+                historyIndex++;
+                this.value = commandHistory[historyIndex];
+            }
+        }
+        
+        // Down Arrow: Navigate forward in command history
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (historyIndex > -1) {
+                historyIndex--;
+                this.value = historyIndex === -1 ? '' : commandHistory[historyIndex];
+            }
+        }
+    });
+
+
+
+        restoreButton.addEventListener('click', () => {
+            terminalWindow.classList.remove('hidden');
+            restoreButton.style.display = 'none';
+            document.getElementById('input').focus();
+        });
+
+        // Double-click header to maximize/minimize
+        document.querySelector('.terminal-header').addEventListener('dblclick', () => {
+            document.querySelector('.maximize').click();
+        });
+
+        function initializeTerminal() {
+            const output = document.getElementById('output');
+            typeWriter(welcomeMessage + '\n', output);
+        }
+
+function typeWriter(text, element) {
+    element.innerHTML = ''; // Clear previous content
+    
+    // Batch rendering for maximum speed
+    const batchSize = 10; // Adjust for optimal performance
+    let index = 0;
+    
+    function renderBatch() {
+        const end = Math.min(index + batchSize, text.length);
+        element.innerHTML += text.slice(index, end);
+        index = end;
+        
+        if (index < text.length) {
+            // Use requestAnimationFrame for smooth rendering
+            requestAnimationFrame(renderBatch);
+        }
+        
+        element.scrollTop = element.scrollHeight;
+    }
+    
+    // Start rendering
+    requestAnimationFrame(renderBatch);
+}
+    document.getElementById('input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const input = this.value.toLowerCase().trim();
+            const output = document.getElementById('output');
+            
+            // Add command to output with prompt
+            output.innerHTML += `❯ ${this.value}\n`;
+            
+            // Store non-empty commands in history
+            if (input && (!commandHistory.length || input !== commandHistory[0])) {
+                commandHistory.unshift(input);
+            }
+            
+            historyIndex = -1; // Reset history index after each command
+
+            if (commands[input]) {
+                // Use innerHTML to render HTML links
+                output.innerHTML += `<span style="color: var(--command-output-color)">${commands[input]}</span>\n`;
+            } else if (input === 'clear') {
+                output.innerHTML = '';
+            } else if (input !== '') {
+                output.innerHTML += `Command not found: ${input}\nType "help" to see available commands.\n`;
+            }
+            
+            this.value = '';
+            output.scrollTop = output.scrollHeight;
+        }
+    });
+
+        // Prevent terminal from closing when clicking inside
+        terminal.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('input').focus();
+        });
+
+        // Initialize
+        window.onload = initializeTerminal;
+    </script>
+</body>
+</html>
