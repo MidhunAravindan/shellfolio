@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'new_branch', url: 'https://github.com/MidhunAravindan/shellfolio.git'
+                git branch: 'main', url: 'https://github.com/MidhunAravindan/shellfolio.git'
             }
         }
 
