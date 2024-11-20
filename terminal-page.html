@@ -258,14 +258,12 @@
 
     <script>
     const welcomeAsciiArt = `
-███████████   █████  █████ ██████   █████ ██████   █████ █████ ██████   █████   █████████      
-░░███░░░░░███ ░░███  ░░███ ░░██████ ░░███ ░░██████ ░░███ ░░███ ░░██████ ░░███   ███░░░░░███     
- ░███    ░███  ░███   ░███  ░███░███ ░███  ░███░███ ░███  ░███  ░███░███ ░███  ███     ░░░      
- ░██████████   ░███   ░███  ░███░░███░███  ░███░░███░███  ░███  ░███░░███░███ ░███              
- ░███░░░░░███  ░███   ░███  ░███ ░░██████  ░███ ░░██████  ░███  ░███ ░░██████ ░███    █████     
- ░███    ░███  ░███   ░███  ░███  ░░█████  ░███  ░░█████  ░███  ░███  ░░█████ ░░███  ░░███      
- █████   █████ ░░████████   █████  ░░█████ █████  ░░█████ █████ █████  ░░█████ ░░█████████      
-░░░░░   ░░░░░   ░░░░░░░░   ░░░░░    ░░░░░ ░░░░░    ░░░░░ ░░░░░ ░░░░░    ░░░░░   ░░░░░░░░░
+               __
+              / _)
+     _.----._/ /
+    /         /
+ __/ (  | (  |
+/__.-'|_|--|_|
         `;
 
         const welcomeMessage = welcomeAsciiArt + "\nWelcome to ShellFolio \nExplore Shell by Typing \"help\" \nAll Commands are case insensitive.";
@@ -356,7 +354,7 @@ function typeWriter(text, element) {
     element.innerHTML = ''; // Clear previous content
     
     // Batch rendering for maximum speed
-    const batchSize = 10; // Adjust for optimal performance
+    const batchSize = 2; // Adjust for optimal performance
     let index = 0;
     
     function renderBatch() {
