@@ -50,7 +50,7 @@ pipeline {
                     docker pull ${env.IMAGE_NAME}:latest
                     sudo docker stop shellfolio || true
                     sudo docker rm shellfolio || true
-                    sudo docker run -d --name shellfolio -p 80:80 ${env.IMAGE_NAME}:latest
+                    sudo docker run -d -p 80:80 --name shellfolio ${env.IMAGE_NAME}:latest
                 """
             }
         }
