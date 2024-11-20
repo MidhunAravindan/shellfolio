@@ -10,7 +10,7 @@ pipeline {
         IMAGE_NAME = "midhun777/shellfolio"
         // AWS EC2 Instance Details
         EC2_USER = "ec2-user" // or your specific user
-        EC2_HOST = "54.159.64.95" // replace with your EC2 public IP or DNS
+        EC2_HOST = "34.235.145.138" // replace with your EC2 public IP or DNS
     }
 
     stages {
@@ -50,7 +50,7 @@ pipeline {
                     docker pull ${env.IMAGE_NAME}:latest
                     sudo docker stop shellfolio || true
                     sudo docker rm shellfolio || true
-                    sudo docker run -d -p 80:80 --name shellfolio ${env.IMAGE_NAME}:latest
+                    sudo docker run -d -p 80:80 -p 443:443 --name shellfolio ${env.IMAGE_NAME}:latest
                 """
             }
         }
