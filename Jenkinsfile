@@ -9,7 +9,7 @@ pipeline {
         // Docker Image Name
         IMAGE_NAME = "midhun777/shellfolio"
         // AWS EC2 Instance Details
-        EC2_USER = "ec2-user" // or your specific user normally default
+        EC2_USER = "ec2-user" // or your specific user 
         EC2_HOST = "54.162.193.235" // replace with your EC2 public IP or DNS 
     }
 
