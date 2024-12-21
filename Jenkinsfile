@@ -10,7 +10,7 @@ pipeline {
         IMAGE_NAME = "midhun777/shellfolio"
         // AWS EC2 Instance Details
         EC2_USER = "ec2-user" // or your specific user 
-        EC2_HOST = "3.85.31.252" // replace with your EC2 public IP or DNS shellfolio
+        EC2_HOST = "3.85.31.252" // replace with your EC2 public IP or DNS shellfolio server
     }
 
     stages {
